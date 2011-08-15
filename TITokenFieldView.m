@@ -269,28 +269,30 @@ CGFloat const kSeparatorHeight = 1;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-	
-	NSArray * tokens = [[NSArray alloc] initWithArray:tokenField.tokensArray];
-	
-	for (TIToken * token in tokens){
-		[token removeFromSuperview];
-	}
-	
-	[tokens release];
-	
-	[self setTokenTitles:[tokenField getTokenTitles]];
-	
-	NSString * untokenized = [tokenTitles componentsJoinedByString:@", "];
-	CGSize untokSize = [untokenized sizeWithFont:[UIFont systemFontOfSize:14]];
-	
-	[tokenField.tokensArray removeAllObjects];
-	[tokenField updateHeight:YES];
-	
-	if (untokSize.width > self.frame.size.width - 120){
-		untokenized = [NSString stringWithFormat:@"%i recipients", tokenTitles.count];
-	}
-	
-	[textField setText:untokenized];
+    
+    if ([self.delegate tokenFieldShouldSummarize:tokenField]) {
+        NSArray * tokens = [[NSArray alloc] initWithArray:tokenField.tokensArray];
+        
+        for (TIToken * token in tokens){
+            [token removeFromSuperview];
+        }
+        
+        [tokens release];
+        
+        [self setTokenTitles:[tokenField getTokenTitles]];
+        
+        NSString * untokenized = [tokenTitles componentsJoinedByString:@", "];
+        CGSize untokSize = [untokenized sizeWithFont:[UIFont systemFontOfSize:14]];
+        
+        [tokenField.tokensArray removeAllObjects];
+        [tokenField updateHeight:YES];
+        
+        if (untokSize.width > self.frame.size.width - 120){
+            untokenized = [NSString stringWithFormat:@"%i recipients", tokenTitles.count];
+        }
+        
+        [textField setText:untokenized];
+    }
 	
 	[textFieldShadow setHidden:YES];
 	[resultsTable setHidden:YES];
