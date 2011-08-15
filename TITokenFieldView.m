@@ -236,11 +236,19 @@ CGFloat const kSeparatorHeight = 1;
 #pragma mark TextField Methods
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-	
+	NSLog(@"textFieldShouldBeginEditing was called");
 	[resultsArray removeAllObjects];
 	[resultsTable reloadData];
+    
+    BOOL beginEditing;
+    
+    if ([self.delegate respondsToSelector:@selector(tokenFieldShouldBeginEditing:)]) {
+        beginEditing = [self.delegate tokenFieldShouldBeginEditing:self.tokenField];
+    } else {
+        beginEditing = YES;
+    }
 	
-    return YES;
+    return beginEditing;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -265,14 +273,31 @@ CGFloat const kSeparatorHeight = 1;
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	[self processLeftoverText:textField.text];
-	return YES;
+    
+    BOOL endEditing;
+    
+    if ([self.delegate respondsToSelector:@selector(tokenFieldShouldEndEditing:)]) {
+        endEditing = [self.delegate tokenFieldShouldEndEditing:self.tokenField];
+    } else {
+        endEditing = YES;
+    }
+    
+	return endEditing;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     
     [self setTokenTitles:[tokenField getTokenTitles]];    
     
-    if ([self.delegate tokenFieldShouldSummarize:tokenField]) {
+    BOOL untokenize;
+    
+    if ([self.delegate respondsToSelector:@selector(tokenFieldShouldSummarize:)]) {
+        untokenize = [self.delegate tokenFieldShouldSummarize:tokenField];
+    } else {
+        untokenize = YES;
+    }
+    
+    if (untokenize) {
         NSArray * tokens = [[NSArray alloc] initWithArray:tokenField.tokensArray];
         
         for (TIToken * token in tokens){

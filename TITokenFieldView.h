@@ -38,6 +38,8 @@
 @optional
 - (BOOL)tokenFieldShouldReturn:(TITokenField *)tokenField;
 - (BOOL)tokenFieldShouldSummarize:(TITokenField *)tokenField;
+- (BOOL)tokenFieldShouldBeginEditing:(TITokenField *)tokenField;
+- (BOOL)tokenFieldShouldEndEditing:(TITokenField *)tokenField;
 
 - (void)tokenField:(TITokenField *)tokenField didChangeToFrame:(CGRect)frame;
 - (void)tokenFieldTextDidChange:(TITokenField *)tokenField;
