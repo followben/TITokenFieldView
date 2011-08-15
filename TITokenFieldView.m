@@ -270,6 +270,8 @@ CGFloat const kSeparatorHeight = 1;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     
+    [self setTokenTitles:[tokenField getTokenTitles]];    
+    
     if ([self.delegate tokenFieldShouldSummarize:tokenField]) {
         NSArray * tokens = [[NSArray alloc] initWithArray:tokenField.tokensArray];
         
@@ -278,8 +280,6 @@ CGFloat const kSeparatorHeight = 1;
         }
         
         [tokens release];
-        
-        [self setTokenTitles:[tokenField getTokenTitles]];
         
         NSString * untokenized = [tokenTitles componentsJoinedByString:@", "];
         CGSize untokSize = [untokenized sizeWithFont:[UIFont systemFontOfSize:14]];
