@@ -2,8 +2,8 @@
 //  TITokenFieldView.h
 //  TITokenFieldView
 //
-//  Created by Tom Irving on 16/02/2010.
-//  Copyright 2010 Tom Irving. All rights reserved.
+//  Original code copyright 2010 Tom Irving. All rights reserved.
+//  Modifications copyright 2011 Ben Stovold. All rights reserved.
 //
 //	Redistribution and use in source and binary forms, with or without modification,
 //	are permitted provided that the following conditions are met:
