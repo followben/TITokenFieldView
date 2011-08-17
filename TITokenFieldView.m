@@ -341,8 +341,8 @@ CGFloat const kSeparatorHeight = 1;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	
-	if ([string isEqualToString:@""] && [textField.text isEqualToString:kTextEmpty] && tokenField.tokensArray.count){
+    
+    if ([string isEqualToString:@""] && [textField.text isEqualToString:kTextEmpty] && tokenField.tokensArray.count){
 		
 		//When the backspace is pressed, we capture it, highlight the last token, and hide the cursor.
 		
@@ -405,8 +405,13 @@ CGFloat const kSeparatorHeight = 1;
 		{
 			title = [text substringWithRange:NSMakeRange(0, [text length] - 1)];
 		}
+        
+        TIToken * token = [[TIToken alloc] initWithTitle:title];
+        if ([self.delegate respondsToSelector:@selector(tokenField:shouldAddToken:)]) {
+            if ([self.delegate tokenField:tokenField shouldAddToken:token]) [tokenField addToken:title];
+        }
+        [token release];
 		
-		[tokenField addToken:title];
 	}
 }
 
